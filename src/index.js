@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './fonts/inter/Inter-Regular.woff';
+import './fonts/inter/Inter-Regular.woff2';
 
 ReactDOM.render(
   <React.StrictMode>

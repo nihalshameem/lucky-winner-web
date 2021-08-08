@@ -1,13 +1,49 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: local("Inter-Regular"),
+    url("./fonts/inter/Inter-Regular.woff") format("woff"),
+    url("./fonts/inter/Inter-Regular.woff2") format("woff2");
+  font-weight: bold;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Inter-Regular" !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+a{
+  text-decoration: none;
+  text-decoration-line: none!important;
+}
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  background: #007bff;
+  background: linear-gradient(to right, #0062e6, #33aeff);
+}
+
+.card-img-left {
+  width: 45%;
+  background: scroll center
+    url("https://source.unsplash.com/WEQbe2jBg40/414x512");
+  background-size: cover;
+}
+.form-group {
+  position: relative;
+}
+.form-group svg {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  margin-right: 15px;
+}
+.form-control:focus{
+  box-shadow: none!important;
+  outline: none!important;
 }
