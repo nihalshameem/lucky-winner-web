@@ -2,6 +2,7 @@ import axios from "axios";
 
 const url = process.env.REACT_APP_BASE_URL;
 const LOGIN_API = "customer/login";
+const REGISTER_API = "customer/register";
 const PROFILE_API = "customer/profile/" + localCheck();
 
 function localCheck() {
@@ -17,4 +18,8 @@ export function loginApi(values) {
 
 export function profileApi(values) {
   return axios.get(url + PROFILE_API, values);
+}
+
+export function registerApi(values) {
+  return axios.post(url + REGISTER_API, values);
 }
