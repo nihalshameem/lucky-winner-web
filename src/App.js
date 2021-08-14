@@ -9,10 +9,9 @@ import Register from "./Auth/Register";
 function App() {
   return (
     <div className="App">
-      <div className="container-fluid">
         <Router>
           <Switch>
-            <Route exact path="/">
+            <Route path="/">
               <BasePage />
             </Route>
             <Route path="/login">
@@ -23,7 +22,6 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </div>
     </div>
   );
 }
