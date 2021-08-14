@@ -9,6 +9,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import { Drawer } from "@material-ui/core";
 import NavBar from "./NavBar";
+import {
+  RiHome3Line,
+  RiUser3Line,
+  RiClipboardLine,
+  RiTrophyLine,
+  RiLoginCircleLine,
+} from "react-icons/ri";
 
 const useStyles = makeStyles({
   list: {
@@ -58,25 +65,25 @@ export default function SideBar() {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <RiHome3Line />
               </ListItemIcon>
               <ListItemText primary={"Home"} />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <RiUser3Line />
               </ListItemIcon>
               <ListItemText primary={"Profile"} />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <RiClipboardLine />
               </ListItemIcon>
               <ListItemText primary={"Scratch Card"} />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <RiTrophyLine />
               </ListItemIcon>
               <ListItemText primary={"Winners"} />
             </ListItem>
@@ -85,7 +92,7 @@ export default function SideBar() {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <RiLoginCircleLine />
               </ListItemIcon>
               <ListItemText primary={"Logout"} />
             </ListItem>

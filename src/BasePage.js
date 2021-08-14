@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  withRouter,
-  useLocation,
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import { Route } from "react-router";
 import { profileApi } from "./Components/APIConst";
 import Home from "./Modules/Home";
