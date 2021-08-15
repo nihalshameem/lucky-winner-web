@@ -1,35 +1,37 @@
 import React, { useEffect } from "react";
-import { withRouter, useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import { Route } from "react-router";
-import { profileApi } from "./Components/APIConst";
 import Home from "./Modules/Home";
 import Profile from "./Modules/Profile";
 import SideBar from "./Components/SideBar";
+import Login from "./Auth/Login";
+import Register from "./Auth/Register";
+import ScratchCards from "./Modules/ScratchCards";
+import Winners from "./Modules/Winners";
 
 const BasePage = (props) => {
   const location = useLocation();
+  const [navbar, setNavbar] = React.useState(true);
+
   useEffect(() => {
-    checkStorage();
-  }, [location.pathname]);
-  function checkStorage() {
-    const storedData = localStorage.getItem("api_token");
-    if (!storedData) {
-      profileApi()
-        .then((res) => {
-          if (res.data.status === "0") {
-            props.history.push("/login");
-          }
-        })
-        .catch((e) => {
-          console.log(e.response.data);
-        });
+    if (
+      location.pathname.match("login") ||
+      location.pathname.match("register")
+    ) {
+      setNavbar(false);
+    } else {
+      setNavbar(true);
     }
-  }
+  }, [location.pathname]);
   return (
     <main>
-      <SideBar />
+      {navbar && <SideBar />}
       <Route exact path="/" component={Home} />
       <Route path="/profile" component={Profile} />
+      <Route path="/scratch-cards" component={ScratchCards} />
+      <Route path="/winners" component={Winners} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
     </main>
   );
 };

@@ -8,6 +8,9 @@ const PROFILE_API = "customer/profile/" + localCheck();
 const BANNER_API = "banners";
 const CASH_CARD_API = "customer/cash-cards/" + localCheck();
 const WALLET_API = "customer/wallet/" + localCheck();
+const PROFILE_UPDATE_API = "customer/profile-update/" + localCheck();
+const SCRATCH_CARD_API = "customer/scratch-cards/" + localCheck();
+const WINNER_API = "winners";
 
 function localCheck() {
   const storedData = localStorage.getItem("api_token");
@@ -41,5 +44,17 @@ export function cashCardsApi() {
 }
 
 export function walletApi() {
-  return axios.get(url +  WALLET_API);
+  return axios.get(url + WALLET_API);
+}
+
+export function profileUpdateApi(values) {
+  return axios.post(url + PROFILE_UPDATE_API, values);
+}
+
+export function scatchCardsApi() {
+  return axios.get(url + SCRATCH_CARD_API);
+}
+
+export function winnersApi() {
+  return axios.get(url + WINNER_API);
 }

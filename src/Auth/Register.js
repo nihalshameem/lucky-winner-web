@@ -9,7 +9,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
-import { loginApi, profileApi, registerApi } from "../Components/APIConst";
+import { profileApi, registerApi } from "../Components/APIConst";
 
 function Register(props) {
   useEffect(() => {
@@ -60,10 +60,10 @@ function Register(props) {
         .required("Password Required")
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { setErrors }) => {
       registerApi(values).then((res) => {
-        if (res.data.status == "0") {
-          alert(res.data.message);
+        if (res.data.status === "0") {
+          setErrors(res.data);
         } else {
           props.history.push("/login");
         }
