@@ -60,10 +60,10 @@ function Register(props) {
         .required("Password Required")
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { setErrors }) => {
       registerApi(values).then((res) => {
         if (res.data.status == "0") {
-          alert(res.data.message);
+          setErrors(res.data);
         } else {
           props.history.push("/login");
         }

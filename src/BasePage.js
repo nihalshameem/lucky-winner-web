@@ -5,19 +5,33 @@ import { profileApi } from "./Components/APIConst";
 import Home from "./Modules/Home";
 import Profile from "./Modules/Profile";
 import SideBar from "./Components/SideBar";
+import Login from "./Auth/Login";
+import Register from "./Auth/Register";
 
 const BasePage = (props) => {
   const location = useLocation();
+  const [navbar, setNavbar] = React.useState(true);
+  const [isLogged, setIsLogged] = React.useState(false);
   useEffect(() => {
     checkStorage();
-  }, [location.pathname]);
+    if (
+      location.pathname.match("login") ||
+      location.pathname.match("register")
+    ) {
+      setNavbar(false);
+    } else {
+      setNavbar(true);
+    }
+  }, [location.pathname, isLogged]);
   function checkStorage() {
     const storedData = localStorage.getItem("api_token");
-    if (!storedData) {
+    if (storedData) {
       profileApi()
         .then((res) => {
           if (res.data.status === "0") {
-            props.history.push("/login");
+            setIsLogged(false);
+          } else {
+            setIsLogged(true);
           }
         })
         .catch((e) => {
@@ -27,9 +41,19 @@ const BasePage = (props) => {
   }
   return (
     <main>
-      <SideBar />
-      <Route exact path="/" component={Home} />
-      <Route path="/profile" component={Profile} />
+      {(navbar || isLogged) && <SideBar />}
+      {isLogged && (
+        <>
+          <Route exact path="/" component={Home} />
+          <Route path="/profile" component={Profile} />
+        </>
+      )}
+      {!isLogged && (
+        <>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </>
+      )}
     </main>
   );
 };

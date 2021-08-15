@@ -25,7 +25,7 @@ function Banners() {
         infinite={true}
         mouseDragEnabled={true}
       >
-        {images.map((item) => (
+        {images && images.map((item) => (
           <img
             src={imageUrl(item.image)}
             className="sliderimg"

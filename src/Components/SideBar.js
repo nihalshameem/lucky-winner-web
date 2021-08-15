@@ -6,15 +6,16 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import { Drawer } from "@material-ui/core";
 import NavBar from "./NavBar";
+import { Link, useHistory } from "react-router-dom";
 import {
   RiHome3Line,
   RiUser3Line,
   RiClipboardLine,
   RiTrophyLine,
   RiLoginCircleLine,
+  RiTrophyFill,
 } from "react-icons/ri";
 
 const useStyles = makeStyles({
@@ -23,24 +24,26 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SideBar() {
+export default function SideBar({ className }) {
+  const history = useHistory();
   const classes = useStyles();
   const [state, setState] = React.useState(false);
   function open() {
     setState(true);
   }
+  function logoutFunc() {
+    localStorage.removeItem("api_token");
+    history.push("/login");
+  }
 
   return (
-    <div>
+    <div className={className}>
       <NavBar open={open} />
       <Drawer
         anchor="left"
         open={state}
         onClose={() => {
           setState(false);
-        }}
-        onOpen={() => {
-          setState(true);
         }}
       >
         <div
@@ -56,32 +59,32 @@ export default function SideBar() {
           <List>
             <ListItem>
               <ListItemIcon>
-                <InboxIcon />
+                <RiTrophyFill />
               </ListItemIcon>
               <ListItemText primary={"Lucky winners"} />
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button component={Link} to="/">
               <ListItemIcon>
                 <RiHome3Line />
               </ListItemIcon>
               <ListItemText primary={"Home"} />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/profile">
               <ListItemIcon>
                 <RiUser3Line />
               </ListItemIcon>
               <ListItemText primary={"Profile"} />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/scratch-card">
               <ListItemIcon>
                 <RiClipboardLine />
               </ListItemIcon>
               <ListItemText primary={"Scratch Card"} />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/winners">
               <ListItemIcon>
                 <RiTrophyLine />
               </ListItemIcon>
@@ -90,7 +93,7 @@ export default function SideBar() {
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={logoutFunc}>
               <ListItemIcon>
                 <RiLoginCircleLine />
               </ListItemIcon>

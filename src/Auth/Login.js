@@ -35,10 +35,10 @@ function Login(props) {
         .max(8, "Too Long!")
         .required("Password Required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { setErrors }) => {
       loginApi(values).then((res) => {
         if (res.data.status == "0") {
-          alert(res.data.message);
+          setErrors(res.data);
         } else {
           let token = res.data.api_token;
           localStorage.setItem("api_token", token);
