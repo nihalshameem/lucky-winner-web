@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { cashCardsApi, imageUrl, profileApi } from "../Components/APIConst";
-import Banners from "../Components/Banners";
+import { imageUrl, profileApi, winnersApi } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
 
-export default function Home(props) {
-  const [cards, setCards] = useState([]);
+export default function Winners(props) {
+  const [winners, setWinners] = useState([]);
   const [loader, setLoader] = React.useState(true);
 
   useEffect(() => {
     checkStorage();
   }, []);
   useEffect(() => {
-    cashCardsApi()
+    winnersApi()
       .then((res) => {
-        setCards(res.data.cash_cards);
+        setWinners(res.data.cash_cards);
       })
       .catch((e) => {
         console.log(e.response);
@@ -53,11 +52,15 @@ export default function Home(props) {
   return (
     <div>
       {loader && <LoaderMini />}
-      <Banners />
       <div className="container">
-        <div className="row">
-          {cards &&
-            cards.map((item) => (
+        <div className="row" style={{ paddingTop: "50px" }}>
+          {!winners && (
+            <div className="col-lg-12">
+              <h3 className="text-center">No One Won Yet!</h3>
+            </div>
+          )}
+          {winners &&
+            winners.map((item) => (
               <div
                 className="col-xs-12 col-sm-12 col-md-6 col-lg-4"
                 key={item.id}

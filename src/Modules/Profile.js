@@ -11,12 +11,16 @@ import {
 } from "react-icons/ri";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { loginApi, profileApi, profileUpdateApi } from "../Components/APIConst";
+import { profileApi, profileUpdateApi } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
 
 function Profile(props) {
   const [profile, setProfile] = useState([]);
   const [loader, setLoader] = React.useState(true);
+
+  useEffect(() => {
+    checkStorage();
+  }, []);
   useEffect(() => {
     profileApi()
       .then((res) => {
@@ -27,6 +31,23 @@ function Profile(props) {
       });
     setLoader(false);
   }, []);
+
+  function checkStorage() {
+    const storedData = localStorage.getItem("api_token");
+    if (storedData) {
+      profileApi()
+        .then((res) => {
+          if (res.data.status === "0") {
+            props.history.push("/login");
+          }
+        })
+        .catch((e) => {
+          console.log(e.response.data);
+        });
+    } else {
+      props.history.push("/login");
+    }
+  }
   const formik = useFormik({
     initialValues: {
       name: profile.name ? profile.name : "",
@@ -69,7 +90,7 @@ function Profile(props) {
     onSubmit: (values, { setErrors }) => {
       setLoader(true);
       profileUpdateApi(values).then((res) => {
-        if (res.data.status == "0") {
+        if (res.data.status === "0") {
           setErrors(res.data);
         } else {
           alert("Success");

@@ -7,26 +7,32 @@ import { loginApi, profileApi } from "../Components/APIConst";
 
 function Login(props) {
   useEffect(() => {
-    checkStorage();
-  }, []);
-  function checkStorage() {
-    const storedData = localStorage.getItem("api_token");
-    if (storedData) {
-      profileApi()
-        .then((res) => {
-          if (res.data.status !== "0") {
-            props.history.push("/");
-          }
-        })
-        .catch((e) => {
-          console.log(e.response.data);
-        });
+    function checkUserData() {
+      const data = localStorage.getItem("api_token");
+      if (data) {
+        profileApi()
+          .then((res) => {
+            if (res.data.status !== "0") {
+              props.history.push("/");
+            }
+          })
+          .catch((e) => {
+            console.log(e.response.data);
+          });
+      }
     }
-  }
+    checkUserData();
+    window.addEventListener("storage", checkUserData);
+
+    return () => {
+      window.removeEventListener("storage", checkUserData);
+    };
+  }, []);
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
+      message: "",
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Username Required!"),
@@ -37,12 +43,12 @@ function Login(props) {
     }),
     onSubmit: (values, { setErrors }) => {
       loginApi(values).then((res) => {
-        if (res.data.status == "0") {
+        if (res.data.status === "0") {
           setErrors(res.data);
         } else {
           let token = res.data.api_token;
           localStorage.setItem("api_token", token);
-          props.history.push("/");
+          window.location.reload();
         }
       });
     },
@@ -91,6 +97,9 @@ function Login(props) {
                   <small className="text-danger">
                     {formik.errors.password}
                   </small>
+                ) : null}
+                {formik.errors.message && formik.touched.message ? (
+                  <small className="text-danger">{formik.errors.message}</small>
                 ) : null}
 
                 <div className="d-grid mt-3">

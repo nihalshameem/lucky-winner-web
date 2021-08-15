@@ -9,7 +9,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
-import { loginApi, profileApi, registerApi } from "../Components/APIConst";
+import { profileApi, registerApi } from "../Components/APIConst";
 
 function Register(props) {
   useEffect(() => {
@@ -62,7 +62,7 @@ function Register(props) {
     }),
     onSubmit: (values, { setErrors }) => {
       registerApi(values).then((res) => {
-        if (res.data.status == "0") {
+        if (res.data.status === "0") {
           setErrors(res.data);
         } else {
           props.history.push("/login");

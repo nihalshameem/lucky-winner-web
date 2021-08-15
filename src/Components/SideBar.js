@@ -28,10 +28,10 @@ export default function SideBar({ className }) {
   const history = useHistory();
   const classes = useStyles();
   const [state, setState] = React.useState(false);
-  function open() {
+  function open(e) {
     setState(true);
   }
-  function logoutFunc() {
+  function logoutFunc(e) {
     localStorage.removeItem("api_token");
     history.push("/login");
   }
@@ -42,17 +42,17 @@ export default function SideBar({ className }) {
       <Drawer
         anchor="left"
         open={state}
-        onClose={() => {
+        onClose={(e) => {
           setState(false);
         }}
       >
         <div
           className={clsx(classes.list)}
           role="presentation"
-          onClick={() => {
+          onClick={(e) => {
             setState(true);
           }}
-          onKeyDown={() => {
+          onKeyDown={(e) => {
             setState(true);
           }}
         >

@@ -42,8 +42,8 @@ export default function NavBar({ open }) {
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
-              onClick={() => {
-                open();
+              onClick={(e) => {
+                open(e);
               }}
             >
               <RiMenu2Fill />
