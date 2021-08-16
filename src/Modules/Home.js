@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { cashCardsApi, imageUrl, profileApi } from "../Components/APIConst";
+import {
+  bidApi,
+  cashCardsApi,
+  imageUrl,
+  profileApi,
+} from "../Components/APIConst";
 import Banners from "../Components/Banners";
 import LoaderMini from "../Components/LoaderMini";
 
@@ -43,12 +48,26 @@ export default function Home(props) {
       .then((res) => {
         if (res.data.user.account_no === null) {
           props.history.push("/profile");
+        } else {
+          bidApi(id,1).then((res) => {
+            if (res.data.status === "0") {
+              alert(
+                res.data.message ||
+                  res.data.cash_card_id ||
+                  res.data.payment_status
+              );
+              setLoader(false);
+            } else {
+              alert(res.data.success);
+              setLoader(false);
+            }
+          });
         }
       })
       .catch((e) => {
         console.log(e.response);
+        setLoader(false);
       });
-    setLoader(false);
   }
   return (
     <div>

@@ -16,6 +16,7 @@ import {
   RiTrophyLine,
   RiLoginCircleLine,
   RiTrophyFill,
+  RiWallet2Line,
 } from "react-icons/ri";
 
 const useStyles = makeStyles({
@@ -78,11 +79,17 @@ export default function SideBar({ className }) {
               </ListItemIcon>
               <ListItemText primary={"Profile"} />
             </ListItem>
-            <ListItem button component={Link} to="/scratch-card">
+            <ListItem button component={Link} to="/scratch-cards">
               <ListItemIcon>
                 <RiClipboardLine />
               </ListItemIcon>
               <ListItemText primary={"Scratch Card"} />
+            </ListItem>
+            <ListItem button component={Link} to="/wallet">
+              <ListItemIcon>
+                <RiWallet2Line />
+              </ListItemIcon>
+              <ListItemText primary={"Wallet"} />
             </ListItem>
             <ListItem button component={Link} to="/winners">
               <ListItemIcon>
