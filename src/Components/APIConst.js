@@ -11,6 +11,7 @@ const WALLET_API = "customer/wallet/" + localCheck();
 const PROFILE_UPDATE_API = "customer/profile-update/" + localCheck();
 const SCRATCH_CARD_API = "customer/scratch-cards/" + localCheck();
 const BID_API = "customer/cash-cards/bid/" + localCheck();
+const SCRATCHING_API = "customer/scratched/" + localCheck();
 const WINNER_API = "winners";
 
 function localCheck() {
@@ -61,5 +62,14 @@ export function winnersApi() {
 }
 
 export function bidApi(id, status) {
-  return axios.post(url + BID_API, { cash_card_id: id, payment_status: status });
+  return axios.post(url + BID_API, {
+    cash_card_id: id,
+    payment_status: status,
+  });
+}
+
+export function scratchingApi(id) {
+  return axios.post(url + SCRATCHING_API, {
+    card_id: id,
+  });
 }
