@@ -8,6 +8,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import ScratchCards from "./Modules/ScratchCards";
 import Winners from "./Modules/Winners";
+import Wallet from "./Modules/Wallet";
 
 const BasePage = (props) => {
   const location = useLocation();
@@ -29,6 +30,7 @@ const BasePage = (props) => {
       <Route exact path="/" component={Home} />
       <Route path="/profile" component={Profile} />
       <Route path="/scratch-cards" component={ScratchCards} />
+      <Route path="/wallet" component={Wallet} />
       <Route path="/winners" component={Winners} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />

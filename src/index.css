@@ -140,3 +140,19 @@ Licensed under MIT
   border-bottom: 1px solid #eee;
   padding-bottom: 15px;
 }
+canvas.ScratchCard__Canvas {
+  left: 0;
+}
+.scratch-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.scratch-amt {
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 38px;
+}
