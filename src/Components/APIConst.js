@@ -12,6 +12,8 @@ const PROFILE_UPDATE_API = "customer/profile-update/" + localCheck();
 const SCRATCH_CARD_API = "customer/scratch-cards/" + localCheck();
 const BID_API = "customer/cash-cards/bid/" + localCheck();
 const SCRATCHING_API = "customer/scratched/" + localCheck();
+const WITHDRAW_REQ = "customer/withdraw-request/" + localCheck();
+const MIN_WITHDRAW = "customer/minimum-withdraw/" + localCheck();
 const WINNER_API = "winners";
 
 function localCheck() {
@@ -72,4 +74,12 @@ export function scratchingApi(id) {
   return axios.post(url + SCRATCHING_API, {
     card_id: id,
   });
+}
+
+export function withdrawReqApi() {
+  return axios.post(url + WITHDRAW_REQ);
+}
+
+export function minWithdrawApi() {
+  return axios.get(url + MIN_WITHDRAW);
 }
