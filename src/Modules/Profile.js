@@ -13,10 +13,26 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { profileApi, profileUpdateApi } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
+import { useSnackbar } from "react-simple-snackbar";
+
+const success = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#007E33",
+  },
+};
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 function Profile(props) {
   const [profile, setProfile] = useState([]);
   const [loader, setLoader] = React.useState(true);
+  const [openSuccess, closeSuccess] = useSnackbar(success);
+  const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
     checkStorage();
@@ -27,7 +43,7 @@ function Profile(props) {
         setProfile(res.data.user);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
       });
     setLoader(false);
   }, []);
@@ -42,7 +58,7 @@ function Profile(props) {
           }
         })
         .catch((e) => {
-          console.log(e.response.data);
+          openError("Something went wrong!");
         });
     } else {
       props.history.push("/login");
@@ -93,7 +109,7 @@ function Profile(props) {
         if (res.data.status === "0") {
           setErrors(res.data);
         } else {
-          alert("Success");
+          openSuccess(res.data.success);
         }
       });
       setLoader(false);
@@ -225,6 +241,11 @@ function Profile(props) {
                   </button>
                 </div>
               </form>
+              <hr />
+              <small className="text-center mb-5 text-muted">
+                Do you want to change password?{" "}
+                <a href="/change-password">Click here!</a>
+              </small>
             </div>
           </div>
         </div>

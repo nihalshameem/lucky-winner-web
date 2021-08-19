@@ -6,9 +6,12 @@ import BasePage from "./BasePage";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Switch } from "react-router";
 import Register from "./Auth/Register";
+import SnackbarProvider from "react-simple-snackbar";
+
 function App() {
   return (
     <div className="App">
+      <SnackbarProvider>
         <Router>
           <Switch>
             <Route path="/">
@@ -22,6 +25,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
+      </SnackbarProvider>
     </div>
   );
 }

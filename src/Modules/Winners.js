@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { imageUrl, profileApi, winnersApi } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
+import { useSnackbar } from "react-simple-snackbar";
+
+const success = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#007E33",
+  },
+};
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 export default function Winners(props) {
   const [winners, setWinners] = useState([]);
   const [loader, setLoader] = React.useState(true);
+  const [openSuccess, closeSuccess] = useSnackbar(success);
+  const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
     checkStorage();
@@ -15,7 +31,7 @@ export default function Winners(props) {
         setWinners(res.data.cash_cards);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
       });
     setLoader(false);
   }, []);
@@ -30,7 +46,7 @@ export default function Winners(props) {
           }
         })
         .catch((e) => {
-          console.log(e.response.data);
+          openError("Something went wrong!");
         });
     } else {
       props.history.push("/login");
@@ -45,7 +61,7 @@ export default function Winners(props) {
         }
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
       });
     setLoader(false);
   }
