@@ -6,11 +6,27 @@ import {
   withdrawReqApi,
 } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
+import { useSnackbar } from "react-simple-snackbar";
+
+const success = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#007E33",
+  },
+};
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 export default function Wallet(props) {
   const [wallet, setWallet] = useState("");
   const [minWithdraw, setMinWithdraw] = useState("");
   const [loader, setLoader] = React.useState(true);
+  const [openSuccess, closeSuccess] = useSnackbar(success);
+  const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
     checkStorage();
@@ -19,28 +35,28 @@ export default function Wallet(props) {
     walletApi()
       .then((res) => {
         if (res.data.status === "0") {
-          alert(res.data.message);
+          openError(res.data.message);
         } else {
           setWallet(res.data.wallet);
         }
         setLoader(false);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
         setLoader(false);
       });
     setLoader(true);
     minWithdrawApi()
       .then((res) => {
         if (res.data.status === "0") {
-          alert(res.data.message);
+          openError(res.data.message);
         } else {
           setMinWithdraw(res.data.min_withdraw);
         }
         setLoader(false);
       })
       .catch((e) => {
-        console.log(e);
+        openError("Something went wrong!");
         setLoader(false);
       });
   }, []);
@@ -55,7 +71,7 @@ export default function Wallet(props) {
           }
         })
         .catch((e) => {
-          console.log(e.response.data);
+          openError("Something went wrong!");
         });
     } else {
       props.history.push("/login");
@@ -65,22 +81,22 @@ export default function Wallet(props) {
     setLoader(true);
     if (wallet < minWithdraw) {
       setLoader(false);
-      return alert(
+      return openError(
         "Your Balance is lower than minimum Withdraw Request amount!"
       );
     }
     withdrawReqApi()
       .then((res) => {
         if (res.data.status === "0") {
-          alert(res.data.message);
+          openError(res.data.message);
         } else {
-          alert(res.data.success);
+          openSuccess(res.data.success);
           window.location.reload();
         }
         setLoader(false);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
         setLoader(false);
       });
   }

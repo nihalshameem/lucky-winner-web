@@ -9,6 +9,7 @@ import Register from "./Auth/Register";
 import ScratchCards from "./Modules/ScratchCards";
 import Winners from "./Modules/Winners";
 import Wallet from "./Modules/Wallet";
+import ChangePass from "./Modules/ChangePass";
 
 const BasePage = (props) => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const BasePage = (props) => {
       <Route path="/winners" component={Winners} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/change-password" component={ChangePass} />
     </main>
   );
 };

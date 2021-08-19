@@ -7,6 +7,20 @@ import {
 } from "../Components/APIConst";
 import LoaderMini from "../Components/LoaderMini";
 import ScratchCard from "react-scratchcard";
+import { useSnackbar } from "react-simple-snackbar";
+
+const success = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#007E33",
+  },
+};
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 const settings = {
   width: 225,
@@ -21,6 +35,8 @@ export default function ScratchCards(props) {
   const [scratched, setScratched] = useState([]);
   const [unscratched, setUnscratched] = useState([]);
   const [tabs, setTabs] = useState("1");
+  const [openSuccess, closeSuccess] = useSnackbar(success);
+  const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
     checkStorage();
@@ -36,7 +52,7 @@ export default function ScratchCards(props) {
           }
         })
         .catch((e) => {
-          console.log(e.response.data);
+          openError("Something went wrong!");
         });
     } else {
       props.history.push("/login");
@@ -51,7 +67,7 @@ export default function ScratchCards(props) {
         setLoader(false);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
         setLoader(false);
       });
   }, [tabs]);
@@ -64,15 +80,15 @@ export default function ScratchCards(props) {
     scratchingApi(id)
       .then((res) => {
         if (res.data.status === "0") {
-          alert(res.data.message);
+          openError(res.data.message);
         } else {
-          alert(res.data.message);
+          openSuccess(res.data.message);
         }
         setUnscratched(unscratched.filter((item) => item.id !== id));
         setLoader(false);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
         setLoader(false);
       });
   }

@@ -7,10 +7,26 @@ import {
 } from "../Components/APIConst";
 import Banners from "../Components/Banners";
 import LoaderMini from "../Components/LoaderMini";
+import { useSnackbar } from "react-simple-snackbar";
+
+const success = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#007E33",
+  },
+};
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 export default function Home(props) {
   const [cards, setCards] = useState([]);
   const [loader, setLoader] = React.useState(true);
+  const [openSuccess, closeSuccess] = useSnackbar(success);
+  const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
     checkStorage();
@@ -21,7 +37,7 @@ export default function Home(props) {
         setCards(res.data.cash_cards);
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
       });
     setLoader(false);
   }, []);
@@ -36,7 +52,7 @@ export default function Home(props) {
           }
         })
         .catch((e) => {
-          console.log(e.response.data);
+          openError("Something went wrong!");
         });
     } else {
       props.history.push("/login");
@@ -49,23 +65,23 @@ export default function Home(props) {
         if (res.data.user.account_no === null) {
           props.history.push("/profile");
         } else {
-          bidApi(id,1).then((res) => {
+          bidApi(id, 1).then((res) => {
             if (res.data.status === "0") {
-              alert(
+              openError(
                 res.data.message ||
                   res.data.cash_card_id ||
                   res.data.payment_status
               );
               setLoader(false);
             } else {
-              alert(res.data.success);
+              openSuccess(res.data.success);
               setLoader(false);
             }
           });
         }
       })
       .catch((e) => {
-        console.log(e.response);
+        openError("Something went wrong!");
         setLoader(false);
       });
   }

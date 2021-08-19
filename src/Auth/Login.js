@@ -4,8 +4,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import { loginApi, profileApi } from "../Components/APIConst";
+import LoaderMini from "../Components/LoaderMini";
+import { useSnackbar } from "react-simple-snackbar";
+
+const error = {
+  position: "bottom-left",
+  style: {
+    backgroundColor: "#CC0000",
+  },
+};
 
 function Login(props) {
+  const [loader, setLoader] = React.useState(false);
+  const [openError, closeError] = useSnackbar(error);
+
   useEffect(() => {
     function checkUserData() {
       const data = localStorage.getItem("api_token");
@@ -17,7 +29,7 @@ function Login(props) {
             }
           })
           .catch((e) => {
-            console.log(e.response.data);
+            openError("Something went wrong!");
           });
       }
     }
@@ -42,9 +54,11 @@ function Login(props) {
         .required("Password Required"),
     }),
     onSubmit: (values, { setErrors }) => {
+      setLoader(true);
       loginApi(values).then((res) => {
         if (res.data.status === "0") {
           setErrors(res.data);
+          setLoader(false);
         } else {
           let token = res.data.api_token;
           localStorage.setItem("api_token", token);
@@ -55,6 +69,7 @@ function Login(props) {
   });
   return (
     <div className="container">
+      {loader && <LoaderMini />}
       <div className="row">
         <div className="col-lg-10 col-xl-9 mx-auto">
           <div className="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
@@ -106,6 +121,7 @@ function Login(props) {
                   <button
                     className="btn btn-primary rounded-pill input-block-level form-control"
                     type="submit"
+                    disabled={loader}
                   >
                     Login
                   </button>

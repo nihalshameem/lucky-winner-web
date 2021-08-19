@@ -14,6 +14,7 @@ const BID_API = "customer/cash-cards/bid/" + localCheck();
 const SCRATCHING_API = "customer/scratched/" + localCheck();
 const WITHDRAW_REQ = "customer/withdraw-request/" + localCheck();
 const MIN_WITHDRAW = "customer/minimum-withdraw/" + localCheck();
+const CHANGE_PASSWORD_AP = "customer/change-password/" + localCheck();
 const WINNER_API = "winners";
 
 function localCheck() {
@@ -82,4 +83,8 @@ export function withdrawReqApi() {
 
 export function minWithdrawApi() {
   return axios.get(url + MIN_WITHDRAW);
+}
+
+export function changePassApi(values) {
+  return axios.post(url + CHANGE_PASSWORD_AP, values);
 }
