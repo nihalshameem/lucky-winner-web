@@ -24,6 +24,7 @@ const error = {
 
 export default function Home(props) {
   const [cards, setCards] = useState([]);
+  const [profile, setProfile] = useState([]);
   const [loader, setLoader] = React.useState(true);
   const [openSuccess, closeSuccess] = useSnackbar(success);
   const [openError, closeError] = useSnackbar(error);
@@ -49,6 +50,8 @@ export default function Home(props) {
         .then((res) => {
           if (res.data.status === "0") {
             props.history.push("/login");
+          } else {
+            setProfile(res.data.user);
           }
         })
         .catch((e) => {
@@ -85,6 +88,33 @@ export default function Home(props) {
         setLoader(false);
       });
   }
+  // Razor pay module start
+
+  const openPayModal = (item) => {
+    const options = {
+      key: "rzp_test_w8unlch1yFaBxm",
+      amount: item.amount * 100, //  = INR 1
+      name: "Lucky Winners",
+      description: "Card Bidding",
+      handler: function (response) {
+        makeBid(item.id);
+      },
+      prefill: {
+        name: profile.name,
+        contact: profile.phone,
+        email: profile.email,
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+  // Razor pay module end
   return (
     <div>
       {loader && <LoaderMini />}
@@ -110,7 +140,7 @@ export default function Home(props) {
                     <button
                       className="btn btn-lg btn-primary"
                       onClick={() => {
-                        makeBid(item.id);
+                        openPayModal(item);
                       }}
                     >
                       Bid
