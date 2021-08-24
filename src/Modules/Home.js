@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   bidApi,
   cashCardsApi,
+  categoriesApi,
   imageUrl,
   profileApi,
+  singleCategoryApi,
 } from "../Components/APIConst";
 import Banners from "../Components/Banners";
 import LoaderMini from "../Components/LoaderMini";
@@ -25,6 +27,8 @@ const error = {
 export default function Home(props) {
   const [cards, setCards] = useState([]);
   const [profile, setProfile] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCat, setSelectedCat] = useState(0);
   const [loader, setLoader] = React.useState(true);
   const [openSuccess, closeSuccess] = useSnackbar(success);
   const [openError, closeError] = useSnackbar(error);
@@ -33,15 +37,33 @@ export default function Home(props) {
     checkStorage();
   }, []);
   useEffect(() => {
-    cashCardsApi()
-      .then((res) => {
-        setCards(res.data.cash_cards);
-      })
-      .catch((e) => {
-        openError("Something went wrong!");
-      });
-    setLoader(false);
-  }, []);
+    setLoader(true);
+    if (selectedCat === 0) {
+      cashCardsApi()
+        .then((res) => {
+          setCards(res.data.cash_cards);
+        })
+        .catch((e) => {
+          openError("Something went wrong!");
+          console.log(e.response);
+        })
+        .finally(() => {
+          setLoader(false);
+        });
+    } else {
+      singleCategoryApi(selectedCat)
+        .then((res) => {
+          setCards(res.data.cash_cards);
+        })
+        .catch((e) => {
+          console.log(e.response);
+          openError("Category not found!");
+        })
+        .finally(() => {
+          setLoader(false);
+        });
+    }
+  }, [categories]);
 
   function checkStorage() {
     const storedData = localStorage.getItem("api_token");
@@ -88,8 +110,8 @@ export default function Home(props) {
         setLoader(false);
       });
   }
-  // Razor pay module start
 
+  // Razor pay module start
   const openPayModal = (item) => {
     const options = {
       key: "rzp_test_w8unlch1yFaBxm",
@@ -113,12 +135,29 @@ export default function Home(props) {
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
     document.body.appendChild(script);
+    categoriesApi()
+      .then((res) => {
+        setCategories(res.data.categories);
+      })
+      .catch((e) => {
+        openError("Categories not loaded!");
+      });
   }, []);
   // Razor pay module end
+
   return (
     <div>
       {loader && <LoaderMini />}
       <Banners />
+      <div className="categories">
+        {categories &&
+          categories.map((item) => (
+            <div className="single-category">
+              <img src={imageUrl(item.image)} alt={"_image" + item.id} />
+              <p>{item.name}</p>
+            </div>
+          ))}
+      </div>
       <div className="container">
         <div className="row">
           {cards &&

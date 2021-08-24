@@ -14,7 +14,9 @@ const BID_API = "customer/cash-cards/bid/" + localCheck();
 const SCRATCHING_API = "customer/scratched/" + localCheck();
 const WITHDRAW_REQ = "customer/withdraw-request/" + localCheck();
 const MIN_WITHDRAW = "customer/minimum-withdraw/" + localCheck();
-const CHANGE_PASSWORD_AP = "customer/change-password/" + localCheck();
+const CHANGE_PASSWORD_API = "customer/change-password/" + localCheck();
+const CATEGORIES = "customer/categories/" + localCheck();
+const SINGLE_CATEGORY = "customer/cash-card/category/";
 const WINNER_API = "winners";
 
 function localCheck() {
@@ -86,5 +88,13 @@ export function minWithdrawApi() {
 }
 
 export function changePassApi(values) {
-  return axios.post(url + CHANGE_PASSWORD_AP, values);
+  return axios.post(url + CHANGE_PASSWORD_API, values);
+}
+
+export function categoriesApi() {
+  return axios.get(url + CATEGORIES);
+}
+
+export function singleCategoryApi(id) {
+  return axios.get(url + SINGLE_CATEGORY + id);
 }

@@ -28,12 +28,13 @@ export default function Winners(props) {
   useEffect(() => {
     winnersApi()
       .then((res) => {
-        setWinners(res.data.cash_cards);
+        setWinners(res.data.winners);
+        setLoader(false);
       })
       .catch((e) => {
         openError("Something went wrong!");
+        setLoader(false);
       });
-    setLoader(false);
   }, []);
 
   function checkStorage() {
