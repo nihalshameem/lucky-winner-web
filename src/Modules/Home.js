@@ -63,7 +63,7 @@ export default function Home(props) {
           setLoader(false);
         });
     }
-  }, [categories]);
+  }, [selectedCat]);
 
   function checkStorage() {
     const storedData = localStorage.getItem("api_token");
@@ -150,9 +150,28 @@ export default function Home(props) {
       {loader && <LoaderMini />}
       <Banners />
       <div className="categories">
+        <div
+          className={`single-category ${selectedCat === 0 ? "active" : ""}`}
+          onClick={() => {
+            setSelectedCat(0);
+          }}
+        >
+          <div>
+            <p>ALL</p>
+          </div>
+          <p>All</p>
+        </div>
         {categories &&
           categories.map((item) => (
-            <div className="single-category">
+            <div
+              className={`single-category ${
+                selectedCat === item.id ? "active" : ""
+              }`}
+              onClick={() => {
+                setSelectedCat(item.id);
+              }}
+              key={item.id}
+            >
               <img src={imageUrl(item.image)} alt={"_image" + item.id} />
               <p>{item.name}</p>
             </div>
@@ -160,6 +179,11 @@ export default function Home(props) {
       </div>
       <div className="container">
         <div className="row">
+          {cards.length === 0 && (
+            <div className="col-lg-12">
+              <p className="text-center">No cards found!</p>
+            </div>
+          )}
           {cards &&
             cards.map((item) => (
               <div

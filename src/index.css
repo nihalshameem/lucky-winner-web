@@ -161,6 +161,8 @@ canvas.ScratchCard__Canvas {
   width: 100%;
   overflow-y: hidden;
   margin-bottom: 10px;
+  padding: 0 10px;
+  cursor: pointer;
 }
 .single-category {
   text-align: center;
@@ -179,4 +181,18 @@ canvas.ScratchCard__Canvas {
 .single-category.active {
   background-color: #000;
   color: white;
+}
+.single-category div {
+  width: 50px;
+  height: 50px;
+  background: grey;
+  border-radius: 5px;
+  position: relative;
+}
+.single-category div span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -50%);
 }
