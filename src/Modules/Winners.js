@@ -19,7 +19,6 @@ const error = {
 export default function Winners(props) {
   const [winners, setWinners] = useState([]);
   const [loader, setLoader] = React.useState(true);
-  const [openSuccess, closeSuccess] = useSnackbar(success);
   const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
@@ -28,12 +27,13 @@ export default function Winners(props) {
   useEffect(() => {
     winnersApi()
       .then((res) => {
-        setWinners(res.data.cash_cards);
+        setWinners(res.data.winners);
+        setLoader(false);
       })
       .catch((e) => {
         openError("Something went wrong!");
+        setLoader(false);
       });
-    setLoader(false);
   }, []);
 
   function checkStorage() {
@@ -62,17 +62,22 @@ export default function Winners(props) {
       })
       .catch((e) => {
         openError("Something went wrong!");
+      })
+      .finally(() => {
+        setLoader(false);
       });
-    setLoader(false);
   }
   return (
     <div>
       {loader && <LoaderMini />}
       <div className="container">
-        <div className="row" style={{ paddingTop: "50px" }}>
-          {!winners && (
+        <h3 className="text-center" style={{ paddingTop: "100px" }}>
+          WINNERS
+        </h3>
+        <div className="row P-4">
+          {winners.length === 0 && (
             <div className="col-lg-12">
-              <h3 className="text-center">No One Won Yet!</h3>
+              <p className="text-center">No One Won Today!</p>
             </div>
           )}
           {winners &&

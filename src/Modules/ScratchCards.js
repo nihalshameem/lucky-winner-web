@@ -25,8 +25,7 @@ const error = {
 const settings = {
   width: 225,
   height: 225,
-  image:
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgxKSd6gGf2vNgUZiXyTRUhVE8MoYSS7CnSA&usqp=CAU",
+  image: window.location.origin + "/scratch_card.jpg",
   finishPercent: 60,
 };
 
