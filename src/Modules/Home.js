@@ -4,6 +4,7 @@ import {
   cashCardsApi,
   categoriesApi,
   imageUrl,
+  paymentKeyApi,
   profileApi,
   singleCategoryApi,
 } from "../Components/APIConst";
@@ -28,12 +29,18 @@ export default function Home(props) {
   const [cards, setCards] = useState([]);
   const [profile, setProfile] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [key, setKey] = useState('');
   const [selectedCat, setSelectedCat] = useState(0);
   const [loader, setLoader] = React.useState(true);
   const [openSuccess, closeSuccess] = useSnackbar(success);
   const [openError, closeError] = useSnackbar(error);
 
   useEffect(() => {
+    paymentKeyApi().then((res)=>{
+      setKey(res.data.winners)
+    }).catch((e)=>{
+      openError('Something Wrong!')
+    })
     checkStorage();
   }, []);
   useEffect(() => {
@@ -114,7 +121,7 @@ export default function Home(props) {
   // Razor pay module start
   const openPayModal = (item) => {
     const options = {
-      key: "rzp_test_w8unlch1yFaBxm",
+      key: key,
       amount: item.amount * 100, //  = INR 1
       name: "Lucky Winners",
       description: "Card Bidding",

@@ -18,6 +18,7 @@ const CHANGE_PASSWORD_API = "customer/change-password/" + localCheck();
 const CATEGORIES = "customer/categories/" + localCheck();
 const SINGLE_CATEGORY = "customer/cash-card/category/";
 const WINNER_API = "winners";
+const PAYMENT_KEY = "payment-key";
 
 function localCheck() {
   const storedData = localStorage.getItem("api_token");
@@ -97,4 +98,8 @@ export function categoriesApi() {
 
 export function singleCategoryApi(id) {
   return axios.get(url + SINGLE_CATEGORY + id);
+}
+
+export function paymentKeyApi(id) {
+  return axios.get(url + PAYMENT_KEY);
 }
